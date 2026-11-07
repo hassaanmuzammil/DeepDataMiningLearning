@@ -25,6 +25,9 @@ python -m nanolm.generate <run_dir> --prompt "ROMEO:" --top-p 0.9   # sampling
 python -m nanolm.finetune -c nanolm/configs/part2/P2_sft_alpaca.yaml # LoRA SFT of a pretrained LLM (also eval_bpb, dpo)
 python -m nanolm.benchmarks run -c nanolm/configs/part3/B2_laptop.yaml   # MMLU/ARC/GSM8K/... via lm-evaluation-harness
 python -m nanolm.viz all                                           # regenerate every tutorial figure
+python -m nanolm.context_curve outputs/nanolm/sweeps/context_length   # bpb vs. context length (sweeps/context_length.yaml)
+python -m nanolm.attention_stats --run <gpt_run_dir> --inspect L3H2   # attention maps + per-head scores (prev-token, word-start, ...)
+python -m nanolm.diversity --run <run_dir>                        # distinct-4-gram diversity vs. temperature / top-p at fixed bpb
 ```
 
 | config | what it trains |

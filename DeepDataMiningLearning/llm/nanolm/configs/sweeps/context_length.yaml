@@ -1,0 +1,27 @@
+# Does more context help? LSTM vs modern Transformer at seq_len 64/128/256/512.
+#   python -m nanolm.sweep --sweep nanolm/configs/sweeps/context_length.yaml
+#   python -m nanolm.context_curve outputs/nanolm/sweeps/context_length
+# Same token budget for every run: batch_size x seq_len = 8192 tokens/step, 2000 steps = 16.4M tokens.
+# Evaluation uses the training seq_len (eval.eval_seq_len = 0), so bpb reflects the context the model was trained with.
+name: context_length
+base: ../02_char_transformer.yaml
+seeds: [1337, 42]
+common:
+  train.max_steps: 2000
+runs:
+  - name: lstm_ctx64
+    overrides: {model.arch: lstm, model.n_layers: 2, model.dim: 256, train.lr: 2e-3, train.weight_decay: 0.0, train.seq_len: 64, train.batch_size: 128}
+  - name: lstm_ctx128
+    overrides: {model.arch: lstm, model.n_layers: 2, model.dim: 256, train.lr: 2e-3, train.weight_decay: 0.0, train.seq_len: 128, train.batch_size: 64}
+  - name: lstm_ctx256
+    overrides: {model.arch: lstm, model.n_layers: 2, model.dim: 256, train.lr: 2e-3, train.weight_decay: 0.0, train.seq_len: 256, train.batch_size: 32}
+  - name: lstm_ctx512
+    overrides: {model.arch: lstm, model.n_layers: 2, model.dim: 256, train.lr: 2e-3, train.weight_decay: 0.0, train.seq_len: 512, train.batch_size: 16}
+  - name: gpt_modern_ctx64
+    overrides: {model.norm: rmsnorm, model.pos: rope, model.mlp: swiglu, model.bias: false, train.seq_len: 64, train.batch_size: 128}
+  - name: gpt_modern_ctx128
+    overrides: {model.norm: rmsnorm, model.pos: rope, model.mlp: swiglu, model.bias: false, train.seq_len: 128, train.batch_size: 64}
+  - name: gpt_modern_ctx256
+    overrides: {model.norm: rmsnorm, model.pos: rope, model.mlp: swiglu, model.bias: false, train.seq_len: 256, train.batch_size: 32}
+  - name: gpt_modern_ctx512
+    overrides: {model.norm: rmsnorm, model.pos: rope, model.mlp: swiglu, model.bias: false, train.seq_len: 512, train.batch_size: 16}

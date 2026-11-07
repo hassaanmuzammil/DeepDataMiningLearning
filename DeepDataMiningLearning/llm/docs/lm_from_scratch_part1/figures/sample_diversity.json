@@ -1,0 +1,177 @@
+{
+ "run": "outputs/nanolm/sweeps/char_models/gpt_modern_s1337",
+ "val_bpb": 2.0952120429615855,
+ "samples": 16,
+ "length": 1000,
+ "reference": {
+  "distinct4": 0.7872367101303912,
+  "distinct4_std": 0.035592469949236025,
+  "word_valid": 0.9401665661416,
+  "word_valid_std": 0.031570918841230776
+ },
+ "temperature": [
+  {
+   "value": 0.0,
+   "temperature": 0.0,
+   "top_p": 1.0,
+   "distinct4": 0.1998495486459378,
+   "distinct4_std": 0.06869101665071742,
+   "word_valid": 0.9958728078224156,
+   "word_valid_std": 0.0032137694737210303
+  },
+  {
+   "value": 0.3,
+   "temperature": 0.3,
+   "top_p": 1.0,
+   "distinct4": 0.5671389167502507,
+   "distinct4_std": 0.037199278995965736,
+   "word_valid": 0.9953766023367205,
+   "word_valid_std": 0.002786253187307886
+  },
+  {
+   "value": 0.5,
+   "temperature": 0.5,
+   "top_p": 1.0,
+   "distinct4": 0.7026078234704112,
+   "distinct4_std": 0.02402515459780037,
+   "word_valid": 0.991280920612426,
+   "word_valid_std": 0.004993686191717623
+  },
+  {
+   "value": 0.7,
+   "temperature": 0.7,
+   "top_p": 1.0,
+   "distinct4": 0.7963264794383149,
+   "distinct4_std": 0.020149215496958955,
+   "word_valid": 0.9831423420798262,
+   "word_valid_std": 0.00874708865249145
+  },
+  {
+   "value": 0.8,
+   "temperature": 0.8,
+   "top_p": 1.0,
+   "distinct4": 0.8202733199598796,
+   "distinct4_std": 0.023410697893445336,
+   "word_valid": 0.9717863578829833,
+   "word_valid_std": 0.010526772627360886
+  },
+  {
+   "value": 0.9,
+   "temperature": 0.9,
+   "top_p": 1.0,
+   "distinct4": 0.8363841524573721,
+   "distinct4_std": 0.015782957376410216,
+   "word_valid": 0.9676666304342373,
+   "word_valid_std": 0.010860786608882438
+  },
+  {
+   "value": 1.0,
+   "temperature": 1.0,
+   "top_p": 1.0,
+   "distinct4": 0.8607698094282848,
+   "distinct4_std": 0.018117501281119157,
+   "word_valid": 0.949852124182724,
+   "word_valid_std": 0.018431743410757696
+  },
+  {
+   "value": 1.2,
+   "temperature": 1.2,
+   "top_p": 1.0,
+   "distinct4": 0.898006519558676,
+   "distinct4_std": 0.012546229486386801,
+   "word_valid": 0.8863392265501504,
+   "word_valid_std": 0.021898795097435968
+  },
+  {
+   "value": 1.5,
+   "temperature": 1.5,
+   "top_p": 1.0,
+   "distinct4": 0.9321088264794384,
+   "distinct4_std": 0.010841773386050616,
+   "word_valid": 0.7731583683697425,
+   "word_valid_std": 0.037583426515634684
+  }
+ ],
+ "top_p": [
+  {
+   "value": 0.3,
+   "temperature": 1.0,
+   "top_p": 0.3,
+   "distinct4": 0.4558049147442327,
+   "distinct4_std": 0.03482653446410007,
+   "word_valid": 0.9953931175968452,
+   "word_valid_std": 0.002166906336502898
+  },
+  {
+   "value": 0.5,
+   "temperature": 1.0,
+   "top_p": 0.5,
+   "distinct4": 0.6306419257773319,
+   "distinct4_std": 0.03866222514301496,
+   "word_valid": 0.9947495076636748,
+   "word_valid_std": 0.004086590038006084
+  },
+  {
+   "value": 0.7,
+   "temperature": 1.0,
+   "top_p": 0.7,
+   "distinct4": 0.7294383149448345,
+   "distinct4_std": 0.028317247078313006,
+   "word_valid": 0.991386921686997,
+   "word_valid_std": 0.005361215913933531
+  },
+  {
+   "value": 0.8,
+   "temperature": 1.0,
+   "top_p": 0.8,
+   "distinct4": 0.7738841524573721,
+   "distinct4_std": 0.019880617958750593,
+   "word_valid": 0.9871701085420013,
+   "word_valid_std": 0.007478948392382854
+  },
+  {
+   "value": 0.9,
+   "temperature": 1.0,
+   "top_p": 0.9,
+   "distinct4": 0.8117477432296891,
+   "distinct4_std": 0.021438126480937493,
+   "word_valid": 0.9813830035549814,
+   "word_valid_std": 0.008897191359185559
+  },
+  {
+   "value": 0.95,
+   "temperature": 1.0,
+   "top_p": 0.95,
+   "distinct4": 0.8396439317953862,
+   "distinct4_std": 0.018473737503638055,
+   "word_valid": 0.9780437797356768,
+   "word_valid_std": 0.009327699340652394
+  },
+  {
+   "value": 1.0,
+   "temperature": 1.0,
+   "top_p": 1.0,
+   "distinct4": 0.8607698094282848,
+   "distinct4_std": 0.018117501281119157,
+   "word_valid": 0.949852124182724,
+   "word_valid_std": 0.018431743410757696
+  }
+ ],
+ "examples": {
+  "T=0.0 p=1.0": " the prince that we will see the common souls\nThat we have set upon the strange of the strange\nAnd the sun of the state of the state,\nAnd there the sea the state of the state,\nAnd there the sea the state of the strange of the\nshort of the season of the strange of the stranger\nAnd the sun of the stra",
+  "T=0.3 p=1.0": "e you to see him that we have left your country's love,\nAnd then be so too beggar to the prince.\n\nLADY CAPULET:\nWhat is the matter? what says you shall be gone?\n\nDUKE VINCENTIO:\nYou shall be so, sir; I will not so to the world.\n\nLADY ANNE:\nThe provost is here, but the house of York,\nAnd there is a b",
+  "T=0.5 p=1.0": "e you to save no time as the sweet safety,\nAnd shall not prove a bed, but the beasts of the\nplace that you shall be strike, let him be the\nfound the prince. I am not so live.\n\nLUCIO:\nWe will show your men are offer'd for what you have\nnot so stoop of your hearts and the princely bid\nthee me.\n\nANGELO",
+  "T=0.7 p=1.0": "e you to sit in mine ears, to what says you,\nAnd not your part and right accident.\n\nKING RICHARD III:\nNay, sir, if thou die, not my love shall be me\nTo make my father's life in the other beauty,\nAnd in the sun to thine harm of the world,\nBut stop an extremes for your patience's gentleman!\nWhat seat ",
+  "T=0.8 p=1.0": "e you to give no infection to live:\nI must give you to his from his heart:\nAnd every hands that rather know so what?\n\nGLOUCESTER:\nCome, good my lord: did I am su myself\nI hear it with thy bed with my mother's head!\n\nKING RICHARD III:\nGood sovereign, even he lives with his provost;\nAnd she is as easi",
+  "T=0.9 p=1.0": "e you to give no infection to live:\nI must give you to his means before you with shame\nof conscience what knew what hath less than Lord Hastings,\nWhere to famili most dear children of thy bed;\nFor so I thus leisure on that thou deniy'st,\nBut in thy service; let me be patient\nOf a dozen blood as easi",
+  "T=1.0 p=1.0": "e you to give no infection to living your city,\nIn many overto a bed, but confidence\nBy commander'd, why canst thou do not,\nUnteritoring since the rest to famili means:\nI hear it, I think too grace and thus.\nBoth to question show him to obscure it;\nBeing hell, but the hand, o'er either bear.\n\nKING R",
+  "T=1.2 p=1.0": "e you to o'erprising name, to what says come,\nIs no longer, touchber your coward shall depart.\nOr light, close thy chamber, let him son,\nBut justices, it makes y most depart.\n\nGRUMIO:\nNo? talk you'll not unsurite to question.\n\nROMEO:\nGood sovereign, even hell for what hand,\nAnd gentlemen! give I am ",
+  "T=1.5 p=1.0": "t you to, 'tis loising slow of thine eyes? O,\nIs no longer, touchber, Sir Harry ash\nI'verdi\nNo wront. Havek so wife foure opposed,\nLive murder'd Mars, it makes y most deliver'd\nYet otherwardly knows; Lord George\nOr prevailing by phicils obscured my sees\nOf; let's we to trip, 'lordinal, became it alo",
+  "T=1.0 p=0.3": " you the season of your love is the world,\nAnd so you are a body of your son,\nAnd so you are so to the prince and your honour.\n\nBENVOLIO:\nAnd what is he so?\n\nPOLIXENES:\nI have a word of my son and my love and heart\nThat I will show the season of the better for thee.\n\nLADY CAPULET:\nWhat is the better",
+  "T=1.0 p=0.5": "e your love, I will not speak a sight of the\nmost consul, and you are but the beasts of all a\nprobation of your hands.\n\nLEONTES:\nI have not proved to my brother's part,\nI have some most content and my brother's son.\n\nPAULINA:\nThe noble lord, I will see thee from my brother,\nAnd there the man be not ",
+  "T=1.0 p=0.7": "e you to give me this as the father as you did;\nyou shall return me in the court of your presence\nhath your son.\n\nPOMPEY:\nAy, that thou dost be a most admitted with you; and\nhe shall be no more.\n\nPOLIXENES:\nO meant of this?\n\nPOLIXENES:\nMarry, they do but he had found a side,\nI would so be not so muc",
+  "T=1.0 p=0.8": "e you to give me in my son to live thee,\nTo see her love thee have done to begin.\n\nKING RICHARD II:\nNo more so with her election in the garden,\nBe ready on another by the better done:\nNow to my brother than thou couldst all barks.\nThis is thy bosom see thee from one that,\nOr else it soundly a bed of",
+  "T=1.0 p=0.9": "e you to give me in my son to live:\nLest to my shame with request,\nShe that it ensues me, let her light be obedient,\nAnd let him perform them hear the close,\nAs my brother's house, or by my lord,\nAs if the sun that once are burst not so,\nBut in both be strengthen'd by his poor father's blood\nBy our ",
+  "T=1.0 p=0.95": "e you to give me in my son Thursday assured\nAs she may be request, did that it ensue\nBy commander'd, which of all infant, and their son,\nBut the burst impression of your great steel\nIs traitor to know me, as you can not away.\n\nROMEO:\nGood sovereign, even henceforth you true,\nInfusions, because I am "
+ }
+}
