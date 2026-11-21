@@ -1,0 +1,37 @@
+# HW 2, Task 3: scaling at a FIXED token budget D = 32.8M (2000 steps x 16,384 tokens, FineWeb sp1024).
+# Recipe = the best row of Task 2 (muon_wsd: RMSNorm/RoPE, GELU, Muon + WSD), n_heads = dim / 64.
+# Muon matrix_lr / warmup are not re-tuned per size (a stated limitation). max_time_sec = 0 so that the
+# schedule never shrinks to a wall-clock budget: every size sees exactly D tokens.
+#   python -m nanolm.sweep --sweep nanolm/configs/sweeps/laptop_scaling_2x.yaml
+#   python -m nanolm.scaling_plot outputs/nanolm/sweeps/laptop_scaling outputs/nanolm/sweeps/laptop_scaling_2x
+name: laptop_scaling_2x
+base: ../laptop/L4q_gpt_fineweb_quick.yaml
+seeds: [1337, 42]
+common:
+  model.norm: rmsnorm
+  model.pos: rope
+  model.bias: false
+  model.mlp: gelu
+  train.optimizer: muon
+  train.matrix_lr: 0.02
+  train.lr: 3e-3
+  train.embed_lr: 3e-3
+  train.schedule: wsd
+  train.warmdown_frac: 0.3
+  train.min_lr_frac: 0.0
+  train.max_steps: 2000
+  train.eval_every: 200
+  train.max_time_sec: 0
+runs:
+  - name: s0
+    overrides: {model.dim: 128, model.n_layers: 2, model.n_heads: 2}
+  - name: s1
+    overrides: {model.dim: 192, model.n_layers: 3, model.n_heads: 3}
+  - name: s2
+    overrides: {model.dim: 256, model.n_layers: 4, model.n_heads: 4}
+  - name: s3
+    overrides: {model.dim: 384, model.n_layers: 6, model.n_heads: 6}
+  - name: s4
+    overrides: {model.dim: 512, model.n_layers: 8, model.n_heads: 8}
+  - name: s5
+    overrides: {model.dim: 768, model.n_layers: 8, model.n_heads: 12}

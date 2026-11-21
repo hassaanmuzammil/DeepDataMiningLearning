@@ -1,0 +1,27 @@
+# HW 2, Task 1b: fixing the overfitting of the GPT-2 BPE tokenizer (V = 50,257) on Tiny Shakespeare.
+# Base = the gpt2_bpe row of laptop_tokenizers (L3_tokenizer: 4 x 256 modern GPT, seq 256, 2000 steps x
+# 8,192 tokens, dropout 0.1, AdamW + cosine). In laptop_tokenizers, seed 1337 had its best val bpb at
+# step 250 (eval every 250), so the early-stop length is chosen on seed 1337 and seed 42 is the
+# out-of-sample check. One change per run; eval every 50 steps to locate the best step finely.
+#   python -m nanolm.sweep --sweep nanolm/configs/sweeps/laptop_tokenizer_fix.yaml
+#   python -m nanolm.paired_diffs outputs/nanolm/sweeps/laptop_tokenizer_fix --pairs ...
+name: laptop_tokenizer_fix
+base: ../laptop/L3_tokenizer.yaml
+seeds: [1337, 42]
+common:
+  data.tokenizer: gpt2
+  train.batch_size: 8
+  train.grad_accum: 4
+  train.eval_every: 50
+runs:
+  - name: gpt2_baseline          # = gpt2_bpe of laptop_tokenizers, re-run with eval every 50 steps
+  - name: gpt2_early_stop        # the whole cosine schedule fits in 250 steps (best step, seed 1337)
+    overrides: {train.max_steps: 250}
+  - name: gpt2_early_stop_500    # sensitivity: the best step of the tutorial's reference run
+    overrides: {train.max_steps: 500}
+  - name: gpt2_dropout           # more regularization: dropout 0.1 -> 0.3
+    overrides: {model.dropout: 0.3}
+  - name: gpt2_dropout_wd        # dropout 0.3 and weight decay 0.1 -> 0.3
+    overrides: {model.dropout: 0.3, train.weight_decay: 0.3}
+  - name: gpt2_small             # smaller embedding: dim 256 -> 128 (50,257 x 128 table; heads 4 x 32)
+    overrides: {model.dim: 128}

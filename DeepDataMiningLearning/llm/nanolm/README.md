@@ -28,6 +28,9 @@ python -m nanolm.viz all                                           # regenerate 
 python -m nanolm.context_curve outputs/nanolm/sweeps/context_length   # bpb vs. context length (sweeps/context_length.yaml)
 python -m nanolm.attention_stats --run <gpt_run_dir> --inspect L3H2   # attention maps + per-head scores (prev-token, word-start, ...)
 python -m nanolm.diversity --run <run_dir>                        # distinct-4-gram diversity vs. temperature / top-p at fixed bpb
+python -m nanolm.tokenizer_table outputs/nanolm/sweeps/laptop_tokenizers   # final + best bpb, best step, passes per tokenizer
+python -m nanolm.paired_diffs <sweep_dir> --pairs B-A ... [--factorial a,b,c,d]   # paired differences, 2x2 factorial, curves
+python -m nanolm.scaling_plot <sweep_dir_D1> <sweep_dir_D2>       # bpb vs. params / FLOPs, power-law fit, 2x model vs 2x tokens
 ```
 
 | config | what it trains |

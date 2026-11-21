@@ -1,0 +1,33 @@
+# HW 2, Task 2: the training recipe at laptop/L4q size (4 x 256, FineWeb sp1024, 1000 steps x 16k = 16.4M tokens).
+# One change per row. L4q inherits Muon + WSD + lr 3e-3 + SwiGLU from L4, so every row sets the MLP,
+# optimizer, LR and schedule explicitly. All rows use GELU (the SwiGLU question is the extra credit).
+# muon_cosine is the second control: with it, schedule x optimizer is a full 2x2 factorial.
+#   python -m nanolm.sweep   --sweep nanolm/configs/sweeps/laptop_recipe_quick.yaml
+#   python -m nanolm.analyze outputs/nanolm/sweeps/laptop_recipe_quick --baseline textbook
+name: laptop_recipe_quick
+base: ../laptop/L4q_gpt_fineweb_quick.yaml
+seeds: [1337, 42]
+common:
+  model.mlp: gelu
+  train.eval_every: 100
+runs:
+  - name: textbook
+    overrides: {model.norm: layernorm, model.pos: learned, model.bias: true,
+                train.optimizer: adamw, train.lr: 1e-3, train.embed_lr: 0,
+                train.schedule: cosine, train.min_lr_frac: 0.1}
+  - name: rmsnorm_rope
+    overrides: {model.norm: rmsnorm, model.pos: rope, model.bias: false,
+                train.optimizer: adamw, train.lr: 1e-3, train.embed_lr: 0,
+                train.schedule: cosine, train.min_lr_frac: 0.1}
+  - name: wsd_adamw          # control: same optimizer as rmsnorm_rope, only the schedule changes
+    overrides: {model.norm: rmsnorm, model.pos: rope, model.bias: false,
+                train.optimizer: adamw, train.lr: 1e-3, train.embed_lr: 0,
+                train.schedule: wsd, train.warmdown_frac: 0.3, train.min_lr_frac: 0.0}
+  - name: muon_wsd           # = the L4 recipe with GELU
+    overrides: {model.norm: rmsnorm, model.pos: rope, model.bias: false,
+                train.optimizer: muon, train.matrix_lr: 0.02, train.lr: 3e-3, train.embed_lr: 3e-3,
+                train.schedule: wsd, train.warmdown_frac: 0.3, train.min_lr_frac: 0.0}
+  - name: muon_cosine        # 2nd control: Muon with the cosine schedule
+    overrides: {model.norm: rmsnorm, model.pos: rope, model.bias: false,
+                train.optimizer: muon, train.matrix_lr: 0.02, train.lr: 3e-3, train.embed_lr: 3e-3,
+                train.schedule: cosine, train.min_lr_frac: 0.1}

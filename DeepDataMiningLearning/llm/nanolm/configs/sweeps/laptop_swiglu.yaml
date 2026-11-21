@@ -1,0 +1,41 @@
+# HW 2 extra credit: why did SwiGLU not help in the tutorial's section 2.2.2? Base = the rmsnorm_rope
+# row of laptop_recipe_quick (4 x 256, RMSNorm/RoPE, AdamW + cosine). Three hypotheses, 2 seeds each:
+#   (i)   learning rate:      swiglu at lr 5e-4 / 1e-3 / 2e-3
+#   (ii)  token budget:       gelu vs swiglu at 16.4M / 49M / 98M tokens (1000 / 3000 / 6000 steps)
+#   (iii) parameters: nanolm's SwiGLU is ALREADY parameter-matched (hidden = 2/3 * mlp_mult * dim), so
+#         the test is the opposite one: swiglu_wide (mlp_mult 6) has 1.5x the GELU MLP parameters
+#   python -m nanolm.sweep   --sweep nanolm/configs/sweeps/laptop_swiglu.yaml
+#   python -m nanolm.analyze outputs/nanolm/sweeps/laptop_swiglu --baseline gelu
+name: laptop_swiglu
+base: ../laptop/L4q_gpt_fineweb_quick.yaml
+seeds: [1337, 42]
+common:
+  model.norm: rmsnorm
+  model.pos: rope
+  model.bias: false
+  train.optimizer: adamw
+  train.lr: 1e-3
+  train.embed_lr: 0
+  train.schedule: cosine
+  train.min_lr_frac: 0.1
+  train.eval_every: 100
+  train.max_time_sec: 0
+runs:
+  - name: gelu                       # = rmsnorm_rope in laptop_recipe_quick
+    overrides: {model.mlp: gelu}
+  - name: swiglu                     # mlp_mult 4 -> hidden 682: same MLP params as GELU (hidden 1024)
+    overrides: {model.mlp: swiglu}
+  - name: swiglu_lr5e-4
+    overrides: {model.mlp: swiglu, train.lr: 5e-4}
+  - name: swiglu_lr2e-3
+    overrides: {model.mlp: swiglu, train.lr: 2e-3}
+  - name: swiglu_wide                # mlp_mult 6 -> hidden 1024: 3 * 1024 * d = 1.5x the GELU MLP params
+    overrides: {model.mlp: swiglu, model.mlp_mult: 6}
+  - name: gelu_49M
+    overrides: {model.mlp: gelu, train.max_steps: 3000, train.eval_every: 250}
+  - name: swiglu_49M
+    overrides: {model.mlp: swiglu, train.max_steps: 3000, train.eval_every: 250}
+  - name: gelu_98M
+    overrides: {model.mlp: gelu, train.max_steps: 6000, train.eval_every: 500}
+  - name: swiglu_98M
+    overrides: {model.mlp: swiglu, train.max_steps: 6000, train.eval_every: 500}

@@ -1,0 +1,31 @@
+# HW 2, Task 2 diagnostic: textbook -> rmsnorm_rope changes THREE things at once (norm, positions, bias)
+# and was worth -0.36 bpb at 16.4M tokens (the tutorial measured -0.046 at 49M). Which part is it?
+# Each row = the textbook row of laptop_recipe_quick with ONE of the three changed (pos_none = NoPE:
+# no position signal at all, so "is a learned table worse than nothing at this budget?").
+#   python -m nanolm.sweep --sweep nanolm/configs/sweeps/laptop_recipe_decomp.yaml
+#   python -m nanolm.paired_diffs outputs/nanolm/sweeps/laptop_recipe_quick outputs/nanolm/sweeps/laptop_recipe_decomp ...
+name: laptop_recipe_decomp
+base: ../laptop/L4q_gpt_fineweb_quick.yaml
+seeds: [1337, 42]
+common:
+  model.mlp: gelu
+  model.norm: layernorm
+  model.pos: learned
+  model.bias: true
+  train.optimizer: adamw
+  train.lr: 1e-3
+  train.embed_lr: 0
+  train.schedule: cosine
+  train.min_lr_frac: 0.1
+  train.eval_every: 100
+runs:
+  - name: tb_rope
+    overrides: {model.pos: rope}
+  - name: tb_rmsnorm
+    overrides: {model.norm: rmsnorm}
+  - name: tb_nobias
+    overrides: {model.bias: false}
+  - name: tb_nope
+    overrides: {model.pos: none}
+  - name: rr_learned          # rmsnorm_rope with the learned table back (= RMSNorm + no bias)
+    overrides: {model.norm: rmsnorm, model.bias: false}
